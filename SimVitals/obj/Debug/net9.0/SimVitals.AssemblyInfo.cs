@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SimVitals")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+108d133e754a32fbdce216b28774a97fcada23dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("SimVitals")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SimVitals")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

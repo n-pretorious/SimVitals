@@ -676,6 +676,26 @@
         "runtime": {
           "lib/net8.0/Tmds.DBus.Protocol.dll": {}
         }
+      },
+      "Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Core.dll": {}
+        }
+      },
+      "Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -1718,6 +1738,16 @@
         "tmds.dbus.protocol.0.21.2.nupkg.sha512",
         "tmds.dbus.protocol.nuspec"
       ]
+    },
+    "Core/1.0.0": {
+      "type": "project",
+      "path": "../Core/Core.csproj",
+      "msbuildProject": "../Core/Core.csproj"
+    },
+    "Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../Infrastructure/Infrastructure.csproj",
+      "msbuildProject": "../Infrastructure/Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -1727,7 +1757,9 @@
       "Avalonia.Diagnostics >= 11.3.5",
       "Avalonia.Fonts.Inter >= 11.3.5",
       "Avalonia.ReactiveUI >= 11.3.5",
-      "Avalonia.Themes.Fluent >= 11.3.5"
+      "Avalonia.Themes.Fluent >= 11.3.5",
+      "Core >= 1.0.0",
+      "Infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -1762,7 +1794,14 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\preto\\RiderProjects\\SimVitals\\Core\\Core.csproj": {
+              "projectPath": "C:\\Users\\preto\\RiderProjects\\SimVitals\\Core\\Core.csproj"
+            },
+            "C:\\Users\\preto\\RiderProjects\\SimVitals\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\preto\\RiderProjects\\SimVitals\\Infrastructure\\Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
