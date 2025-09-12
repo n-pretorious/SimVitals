@@ -98,7 +98,11 @@
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\preto\\RiderProjects\\SimVitals\\Core\\Core.csproj": {
+                "projectPath": "C:\\Users\\preto\\RiderProjects\\SimVitals\\Core\\Core.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -213,6 +217,12 @@
             "Avalonia.Themes.Fluent": {
               "target": "Package",
               "version": "[11.3.5, )"
+            },
+            "ReactiveUI.SourceGenerators": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.4.1, )"
             }
           },
           "imports": [

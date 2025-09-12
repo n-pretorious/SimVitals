@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Mn66aQafiLs=",
+  "dgSpecHash": "txzTm3Pw6A8=",
   "success": true,
   "projectFilePath": "C:\\Users\\preto\\RiderProjects\\SimVitals\\SimVitals\\SimVitals.csproj",
   "expectedPackageFiles": [
@@ -28,6 +28,8 @@
     "C:\\Users\\preto\\.nuget\\packages\\harfbuzzsharp.nativeassets.win32\\8.3.1.1\\harfbuzzsharp.nativeassets.win32.8.3.1.1.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\microcom.runtime\\0.11.0\\microcom.runtime.0.11.0.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\reactiveui\\20.1.1\\reactiveui.20.1.1.nupkg.sha512",
+    "C:\\Users\\preto\\.nuget\\packages\\reactiveui.sourcegenerators\\2.4.1\\reactiveui.sourcegenerators.2.4.1.nupkg.sha512",
+    "C:\\Users\\preto\\.nuget\\packages\\reactiveui.sourcegenerators.analyzers.codefixes\\2.4.1\\reactiveui.sourcegenerators.analyzers.codefixes.2.4.1.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\skiasharp\\2.88.9\\skiasharp.2.88.9.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\skiasharp.nativeassets.linux\\2.88.9\\skiasharp.nativeassets.linux.2.88.9.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\skiasharp.nativeassets.macos\\2.88.9\\skiasharp.nativeassets.macos.2.88.9.nupkg.sha512",

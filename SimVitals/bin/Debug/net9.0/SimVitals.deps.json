@@ -15,7 +15,8 @@
           "Avalonia.ReactiveUI": "11.3.5",
           "Avalonia.Themes.Fluent": "11.3.5",
           "Core": "1.0.0",
-          "Infrastructure": "1.0.0"
+          "Infrastructure": "1.0.0",
+          "ReactiveUI.SourceGenerators": "2.4.1"
         },
         "runtime": {
           "SimVitals.dll": {}
@@ -396,6 +397,12 @@
           }
         }
       },
+      "ReactiveUI.SourceGenerators/2.4.1": {
+        "dependencies": {
+          "ReactiveUI.SourceGenerators.Analyzers.CodeFixes": "2.4.1"
+        }
+      },
+      "ReactiveUI.SourceGenerators.Analyzers.CodeFixes/2.4.1": {},
       "SkiaSharp/2.88.9": {
         "dependencies": {
           "SkiaSharp.NativeAssets.Win32": "2.88.9",
@@ -502,6 +509,9 @@
         }
       },
       "Infrastructure/1.0.0": {
+        "dependencies": {
+          "Core": "1.0.0"
+        },
         "runtime": {
           "Infrastructure.dll": {
             "assemblyVersion": "1.0.0.0",
@@ -684,6 +694,20 @@
       "sha512": "sha512-9hNPknWjijnaSWs6auypoXqUptPZcRpUypF+cf1zD50fgW+SEoQda502N3fVZ2eWPcaiUad+z6GaLwOWmUVHNw==",
       "path": "reactiveui/20.1.1",
       "hashPath": "reactiveui.20.1.1.nupkg.sha512"
+    },
+    "ReactiveUI.SourceGenerators/2.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wTqkdFr1YDxri12XLsZosxPiW8Y0fwhMmbNL8r6DohWOkF79XWZVRn5glGneZbFwxVH2lMBn2eitR670BL5o9g==",
+      "path": "reactiveui.sourcegenerators/2.4.1",
+      "hashPath": "reactiveui.sourcegenerators.2.4.1.nupkg.sha512"
+    },
+    "ReactiveUI.SourceGenerators.Analyzers.CodeFixes/2.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-l99XjlCE6kRCqWRGAl0kgLjOK2cGyK1UnYl0tUPsoul7XspmGp2FicOKPLJ7eb04jUY4r2FBuEYCUCeMltEGBg==",
+      "path": "reactiveui.sourcegenerators.analyzers.codefixes/2.4.1",
+      "hashPath": "reactiveui.sourcegenerators.analyzers.codefixes.2.4.1.nupkg.sha512"
     },
     "SkiaSharp/2.88.9": {
       "type": "package",

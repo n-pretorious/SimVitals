@@ -10,3 +10,7 @@ C:\Users\preto\RiderProjects\SimVitals\Infrastructure\obj\Debug\net9.0\Infrastru
 C:\Users\preto\RiderProjects\SimVitals\Infrastructure\obj\Debug\net9.0\refint\Infrastructure.dll
 C:\Users\preto\RiderProjects\SimVitals\Infrastructure\obj\Debug\net9.0\Infrastructure.pdb
 C:\Users\preto\RiderProjects\SimVitals\Infrastructure\obj\Debug\net9.0\ref\Infrastructure.dll
+C:\Users\preto\RiderProjects\SimVitals\Infrastructure\bin\Debug\net9.0\Core.dll
+C:\Users\preto\RiderProjects\SimVitals\Infrastructure\bin\Debug\net9.0\Core.pdb
+C:\Users\preto\RiderProjects\SimVitals\Infrastructure\obj\Debug\net9.0\Infrastructure.csproj.AssemblyReference.cache
+C:\Users\preto\RiderProjects\SimVitals\Infrastructure\obj\Debug\net9.0\Infrastr.15EFFBFE.Up2Date

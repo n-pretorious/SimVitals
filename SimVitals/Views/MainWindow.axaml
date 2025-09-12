@@ -3,18 +3,455 @@
         xmlns:vm="using:SimVitals.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1250" d:DesignHeight="900"
         x:Class="SimVitals.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="SimVitals">
+        Title="SimVitals Pro - Medical Training Simulation"
+        Width="1400" Height="900"
+        Background="#ECF0F1"
+        WindowStartupLocation="CenterScreen">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+ <Grid ColumnDefinitions="320,*,300">
+        
+        <!-- Left Panel - Manikin Control -->
+        <Border Grid.Column="0" Background="#2C3E50" BorderBrush="#3498DB" BorderThickness="0,0,3,0">
+            <ScrollViewer>
+                <StackPanel Margin="20">
+                    <TextBlock Text="🏥 SimMan Control" 
+                               FontSize="20" 
+                               FontWeight="Bold" 
+                               Foreground="White" 
+                               Margin="0,0,0,25"/>
+                    
+                    <!-- Manikin Status -->
+                    <Border Background="#34495E" 
+                            CornerRadius="12" 
+                            Padding="20" 
+                            Margin="0,0,0,25"
+                            BorderBrush="#3498DB" 
+                            BorderThickness="1">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                                <Border Background="#3498DB" 
+                                        CornerRadius="30" 
+                                        Width="60" 
+                                        Height="60">
+                                    <TextBlock Text="👤" 
+                                               FontSize="24" 
+                                               HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center"/>
+                                </Border>
+                                <StackPanel Margin="15,0,0,0">
+                                    <TextBlock Text="SimMan Essential" 
+                                               FontWeight="Bold" 
+                                               FontSize="16" 
+                                               Foreground="White"/>
+                                    <TextBlock Text="Serial: SM001-2024" 
+                                               FontSize="12" 
+                                               Foreground="#BDC3C7"/>
+                                    <TextBlock Text="● Connected" 
+                                               FontSize="12" 
+                                               Foreground="#27AE60"/>
+                                </StackPanel>
+                            </StackPanel>
+                            
+                            <!-- Status Info -->
+                            <Grid ColumnDefinitions="*,*,*">
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Battery" 
+                                               FontSize="12" 
+                                               Foreground="#BDC3C7" 
+                                               HorizontalAlignment="Center"/>
+                                    <TextBlock Text="89%" 
+                                               FontSize="14" 
+                                               FontWeight="Bold" 
+                                               Foreground="#27AE60" 
+                                               HorizontalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="Temp" 
+                                               FontSize="12" 
+                                               Foreground="#BDC3C7" 
+                                               HorizontalAlignment="Center"/>
+                                    <TextBlock Text="36.8°C" 
+                                               FontSize="14" 
+                                               FontWeight="Bold" 
+                                               Foreground="White" 
+                                               HorizontalAlignment="Center"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Session" 
+                                               FontSize="12" 
+                                               Foreground="#BDC3C7" 
+                                               HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding CurrentSession.SessionDuration}" 
+                                               FontSize="14" 
+                                               FontWeight="Bold" 
+                                               Foreground="White" 
+                                               HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Current Scenario -->
+                    <StackPanel Margin="0,0,0,25">
+                        <TextBlock Text="Current Scenario" 
+                                   FontSize="14" 
+                                   FontWeight="Bold" 
+                                   Foreground="White" 
+                                   Margin="0,0,0,10"/>
+                        <Border Background="#27AE60" 
+                                CornerRadius="8" 
+                                Padding="15">
+                            <StackPanel>
+                                <TextBlock Text="{Binding CurrentScenario}" 
+                                           FontWeight="Bold" 
+                                           Foreground="White"/>
+                                <TextBlock Text="Baseline physiological state" 
+                                           FontSize="12" 
+                                           Foreground="#BDC3C7" 
+                                           Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    
+                    <!-- Scenario Buttons -->
+                    <StackPanel>
+                        <TextBlock Text="Training Scenarios" 
+                                   FontSize="14" 
+                                   FontWeight="Bold" 
+                                   Foreground="White" 
+                                   Margin="0,0,0,15"/>
+                        
+                        <Button Content="💔 Cardiac Arrest" 
+                                Background="#E74C3C" 
+                                Foreground="White" 
+                                Padding="15" 
+                                Margin="0,0,0,10" 
+                                FontWeight="Bold"
+                                CornerRadius="5"
+                                Command="{Binding TriggerCardiacEventCommand}"/>
+                        
+                        <Button Content="🚨 Anaphylactic Shock" 
+                                Background="#C0392B" 
+                                Foreground="White" 
+                                Padding="15" 
+                                Margin="0,0,0,10" 
+                                FontWeight="Bold"
+                                CornerRadius="5"
+                                Command="{Binding TriggerAnaphylaxisCommand}"/>
+                        
+                        <Button Content="🧠 Acute Stroke" 
+                                Background="#8E44AD" 
+                                Foreground="White" 
+                                Padding="15" 
+                                Margin="0,0,0,10" 
+                                FontWeight="Bold"
+                                CornerRadius="5"
+                                Command="{Binding TriggerStrokeCommand}"/>
+                        
+                        <Button Content="✅ Return to Normal" 
+                                Background="#F39C12" 
+                                Foreground="White" 
+                                Padding="15" 
+                                Margin="0,0,0,20" 
+                                FontWeight="Bold"
+                                CornerRadius="5"
+                                Command="{Binding NormalizeVitalsCommand}"/>
+                        
+                        <Button Content="🛑 EMERGENCY STOP" 
+                                Background="#C0392B" 
+                                Foreground="White" 
+                                Padding="15" 
+                                FontWeight="Bold"
+                                CornerRadius="5"
+                                Command="{Binding EmergencyStopCommand}"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        
+        <!-- Center Panel - Vitals Display -->
+        <ScrollViewer Grid.Column="1">
+            <StackPanel Margin="30">
+                
+                <!-- Patient Header -->
+                <Border Background="White" 
+                        CornerRadius="15" 
+                        Padding="25" 
+                        Margin="0,0,0,25"
+                        BoxShadow="0 5 20 #19000000">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Training Simulation" 
+                                       FontSize="24" 
+                                       FontWeight="Bold" 
+                                       Foreground="#2C3E50"/>
+                            <TextBlock Text="{Binding CurrentSession.PatientToken, StringFormat='Patient Token: {0} | Instructor: Dr. Sarah Johnson'}" 
+                                       FontSize="14" 
+                                       Foreground="#7F8C8D" 
+                                       Margin="0,5,0,0"/>
+                            <TextBlock Text="{Binding CurrentVitals.Timestamp, StringFormat='Last Update: {0:HH:mm:ss}'}" 
+                                       FontSize="12" 
+                                       Foreground="#95A5A6" 
+                                       Margin="0,5,0,0"/>
+                        </StackPanel>
+                        <Border Grid.Column="1" 
+                                Background="#27AE60" 
+                                CornerRadius="20" 
+                                Padding="12,8">
+                            <TextBlock Text="ISO 13485 ✓" 
+                                       FontSize="12" 
+                                       FontWeight="Bold" 
+                                       Foreground="White"/>
+                        </Border>
+                    </Grid>
+                </Border>
+                
+                <!-- Vitals Grid -->
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" Margin="0,0,0,25">
+                    
+                    <!-- Heart Rate -->
+                    <Border Grid.Column="0" Grid.Row="0" 
+                            Background="White" 
+                            CornerRadius="15" 
+                            Padding="25" 
+                            Margin="0,0,12,25"
+                            BoxShadow="0 5 20 #19000000">
+                        <StackPanel>
+                            <Border Background="#E74C3C" Height="4" CornerRadius="2" Margin="0,0,0,15"/>
+                            <TextBlock Text="❤️ Heart Rate" 
+                                       FontSize="16" 
+                                       FontWeight="Bold" 
+                                       Foreground="#7F8C8D" 
+                                       Margin="0,0,0,10"/>
+                            <TextBlock FontSize="42" FontWeight="Bold" Foreground="#E74C3C">
+                                <Run Text="{Binding CurrentVitals.HeartRate}"/>
+                                <Run Text=" BPM" FontSize="16" Foreground="#95A5A6"/>
+                            </TextBlock>
+                            <TextBlock Text="Normal Range: 60-100 BPM" 
+                                       FontSize="12" 
+                                       Foreground="#7F8C8D"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Blood Pressure -->
+                    <Border Grid.Column="1" Grid.Row="0" 
+                            Background="White" 
+                            CornerRadius="15" 
+                            Padding="25" 
+                            Margin="12,0,0,25"
+                            BoxShadow="0 5 20 #19000000">
+                        <StackPanel>
+                            <Border Background="#3498DB" Height="4" CornerRadius="2" Margin="0,0,0,15"/>
+                            <TextBlock Text="🩸 Blood Pressure" 
+                                       FontSize="16" 
+                                       FontWeight="Bold" 
+                                       Foreground="#7F8C8D" 
+                                       Margin="0,0,0,10"/>
+                            <TextBlock FontSize="42" FontWeight="Bold" Foreground="#3498DB">
+                                <Run Text="{Binding CurrentVitals.BloodPressure}"/>
+                                <Run Text=" mmHg" FontSize="16" Foreground="#95A5A6"/>
+                            </TextBlock>
+                            <TextBlock Text="Normal: &lt;120/80 mmHg" 
+                                       FontSize="12" 
+                                       Foreground="#7F8C8D"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Oxygen Saturation -->
+                    <Border Grid.Column="0" Grid.Row="1" 
+                            Background="White" 
+                            CornerRadius="15" 
+                            Padding="25" 
+                            Margin="0,0,12,25"
+                            BoxShadow="0 5 20 #19000000">
+                        <StackPanel>
+                            <Border Background="#27AE60" Height="4" CornerRadius="2" Margin="0,0,0,15"/>
+                            <TextBlock Text="🫁 Oxygen Saturation" 
+                                       FontSize="16" 
+                                       FontWeight="Bold" 
+                                       Foreground="#7F8C8D" 
+                                       Margin="0,0,0,10"/>
+                            <TextBlock FontSize="42" FontWeight="Bold" Foreground="#27AE60">
+                                <Run Text="{Binding CurrentVitals.OxygenSaturation}"/>
+                                <Run Text=" %" FontSize="16" Foreground="#95A5A6"/>
+                            </TextBlock>
+                            <TextBlock Text="Normal: 95-100%" 
+                                       FontSize="12" 
+                                       Foreground="#7F8C8D"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Respiratory Rate -->
+                    <Border Grid.Column="1" Grid.Row="1" 
+                            Background="White" 
+                            CornerRadius="15" 
+                            Padding="25" 
+                            Margin="12,0,0,25"
+                            BoxShadow="0 5 20 #19000000">
+                        <StackPanel>
+                            <Border Background="#F39C12" Height="4" CornerRadius="2" Margin="0,0,0,15"/>
+                            <TextBlock Text="💨 Respiratory Rate" 
+                                       FontSize="16" 
+                                       FontWeight="Bold" 
+                                       Foreground="#7F8C8D" 
+                                       Margin="0,0,0,10"/>
+                            <TextBlock FontSize="42" FontWeight="Bold" Foreground="#F39C12">
+                                <Run Text="{Binding CurrentVitals.RespiratoryRate}"/>
+                                <Run Text=" /min" FontSize="16" Foreground="#95A5A6"/>
+                            </TextBlock>
+                            <TextBlock Text="Normal: 12-20 /min" 
+                                       FontSize="12" 
+                                       Foreground="#7F8C8D"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                
+                <!-- ECG Monitor -->
+                <Border Background="White" 
+                        CornerRadius="15" 
+                        Padding="25" 
+                        BoxShadow="0 5 20 #19000000">
+                    <StackPanel>
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,15">
+                            <StackPanel Grid.Column="0">
+                                <TextBlock Text="📊 ECG Monitor" 
+                                           FontSize="18" 
+                                           FontWeight="Bold" 
+                                           Foreground="#2C3E50"/>
+                                <TextBlock Text="Lead II - Real-time cardiac rhythm" 
+                                           FontSize="14" 
+                                           Foreground="#7F8C8D"/>
+                            </StackPanel>
+                            <Border Grid.Column="1" 
+                                    Background="#27AE60" 
+                                    CornerRadius="20" 
+                                    Padding="12,8">
+                                <TextBlock Text="NORMAL SINUS RHYTHM" 
+                                           FontSize="12" 
+                                           FontWeight="Bold" 
+                                           Foreground="White"/>
+                            </Border>
+                        </Grid>
+                        
+                        <!-- ECG Display Area -->
+                        <Border Background="#2C3E50" 
+                                Height="150" 
+                                CornerRadius="10">
+                            <Grid>
+                                <TextBlock Text="📈 ECG Waveform Simulation" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center" 
+                                           Foreground="#27AE60" 
+                                           FontSize="16"/>
+                                <TextBlock Text="{Binding CurrentVitals.HeartRate, StringFormat='HR: {0} BPM'}" 
+                                           Margin="15,10" 
+                                           HorizontalAlignment="Left" 
+                                           VerticalAlignment="Top" 
+                                           Foreground="#27AE60" 
+                                           FontSize="12" 
+                                           FontWeight="Bold"/>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <!-- Right Panel - Compliance & Audit -->
+        <Border Grid.Column="2" Background="#34495E" BorderBrush="#27AE60" BorderThickness="3,0,0,0">
+            <ScrollViewer>
+                <StackPanel Margin="20">
+                    <TextBlock Text="🛡️ Compliance Monitor" 
+                               FontSize="18" 
+                               FontWeight="Bold" 
+                               Foreground="White" 
+                               Margin="0,0,0,20"/>
+                    
+                    <!-- System Status -->
+                    <Border Background="#2C3E50" 
+                            CornerRadius="10" 
+                            Padding="15" 
+                            Margin="0,0,0,20"
+                            BorderBrush="#27AE60" 
+                            BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="System Status" 
+                                       FontWeight="Bold" 
+                                       Foreground="#27AE60" 
+                                       Margin="0,0,0,15"/>
+                            
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                                <TextBlock Grid.Column="0" Text="Compliance Score" Foreground="White"/>
+                                <TextBlock Grid.Column="1" Text="98.7%" Foreground="#27AE60" FontWeight="Bold"/>
+                            </Grid>
+                            
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                                <TextBlock Grid.Column="0" Text="HIPAA Status" Foreground="White"/>
+                                <TextBlock Grid.Column="1" Text="✓ Compliant" Foreground="#27AE60"/>
+                            </Grid>
+                            
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                                <TextBlock Grid.Column="0" Text="ISO 13485" Foreground="White"/>
+                                <TextBlock Grid.Column="1" Text="✓ Validated" Foreground="#27AE60"/>
+                            </Grid>
+                            
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                                <TextBlock Grid.Column="0" Text="Data Encryption" Foreground="White"/>
+                                <TextBlock Grid.Column="1" Text="AES-256" Foreground="#27AE60"/>
+                            </Grid>
+                            
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Grid.Column="0" Text="Audit Logging" Foreground="White"/>
+                                <TextBlock Grid.Column="1" Text="✓ Active" Foreground="#27AE60"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Audit Log -->
+                    <TextBlock Text="📋 Real-time Audit Log" 
+                               FontSize="16" 
+                               FontWeight="Bold" 
+                               Foreground="White" 
+                               Margin="0,0,0,15"/>
+                    
+                    <ScrollViewer Height="400">
+                        <ItemsControl ItemsSource="{Binding AuditEntries}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#2C3E50" 
+                                            CornerRadius="8" 
+                                            Margin="0,5" 
+                                            Padding="12"
+                                            BorderBrush="#3498DB" 
+                                            BorderThickness="0,0,0,2">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding TimeString}" 
+                                                       FontSize="10" 
+                                                       Foreground="#BDC3C7"/>
+                                            <TextBlock Text="{Binding Action}" 
+                                                       FontWeight="Bold" 
+                                                       Foreground="White" 
+                                                       TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding UserId}" 
+                                                       FontSize="12" 
+                                                       Foreground="#95A5A6"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+    </Grid>
 
 </Window>

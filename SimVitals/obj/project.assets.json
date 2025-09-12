@@ -509,6 +509,15 @@
           }
         }
       },
+      "ReactiveUI.SourceGenerators/2.4.1": {
+        "type": "package",
+        "dependencies": {
+          "ReactiveUI.SourceGenerators.Analyzers.CodeFixes": "2.4.1"
+        }
+      },
+      "ReactiveUI.SourceGenerators.Analyzers.CodeFixes/2.4.1": {
+        "type": "package"
+      },
       "SkiaSharp/2.88.9": {
         "type": "package",
         "dependencies": {
@@ -690,6 +699,9 @@
       "Infrastructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "Core": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/Infrastructure.dll": {}
         },
@@ -1381,6 +1393,37 @@
         "reactiveui.nuspec"
       ]
     },
+    "ReactiveUI.SourceGenerators/2.4.1": {
+      "sha512": "wTqkdFr1YDxri12XLsZosxPiW8Y0fwhMmbNL8r6DohWOkF79XWZVRn5glGneZbFwxVH2lMBn2eitR670BL5o9g==",
+      "type": "package",
+      "path": "reactiveui.sourcegenerators/2.4.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "analyzers/dotnet/roslyn4.12/cs/ReactiveUI.SourceGenerators.dll",
+        "analyzers/dotnet/roslyn4.8/cs/ReactiveUI.SourceGenerators.dll",
+        "logo.png",
+        "reactiveui.sourcegenerators.2.4.1.nupkg.sha512",
+        "reactiveui.sourcegenerators.nuspec"
+      ]
+    },
+    "ReactiveUI.SourceGenerators.Analyzers.CodeFixes/2.4.1": {
+      "sha512": "l99XjlCE6kRCqWRGAl0kgLjOK2cGyK1UnYl0tUPsoul7XspmGp2FicOKPLJ7eb04jUY4r2FBuEYCUCeMltEGBg==",
+      "type": "package",
+      "path": "reactiveui.sourcegenerators.analyzers.codefixes/2.4.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE/LICENSE",
+        "README.md",
+        "analyzers/dotnet/cs/ReactiveUI.SourceGenerators.Analyzers.CodeFixes.dll",
+        "logo.png",
+        "reactiveui.sourcegenerators.analyzers.codefixes.2.4.1.nupkg.sha512",
+        "reactiveui.sourcegenerators.analyzers.codefixes.nuspec"
+      ]
+    },
     "SkiaSharp/2.88.9": {
       "sha512": "3MD5VHjXXieSHCleRLuaTXmL2pD0mB7CcOB1x2kA1I4bhptf4e3R27iM93264ZYuAq6mkUyX5XbcxnZvMJYc1Q==",
       "type": "package",
@@ -1759,7 +1802,8 @@
       "Avalonia.ReactiveUI >= 11.3.5",
       "Avalonia.Themes.Fluent >= 11.3.5",
       "Core >= 1.0.0",
-      "Infrastructure >= 1.0.0"
+      "Infrastructure >= 1.0.0",
+      "ReactiveUI.SourceGenerators >= 2.4.1"
     ]
   },
   "packageFolders": {
@@ -1843,6 +1887,12 @@
           "Avalonia.Themes.Fluent": {
             "target": "Package",
             "version": "[11.3.5, )"
+          },
+          "ReactiveUI.SourceGenerators": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[2.4.1, )"
           }
         },
         "imports": [
