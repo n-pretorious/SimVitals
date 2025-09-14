@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "txzTm3Pw6A8=",
+  "dgSpecHash": "ZepL7AClwl4=",
   "success": true,
   "projectFilePath": "C:\\Users\\preto\\RiderProjects\\SimVitals\\SimVitals\\SimVitals.csproj",
   "expectedPackageFiles": [
@@ -27,6 +27,8 @@
     "C:\\Users\\preto\\.nuget\\packages\\harfbuzzsharp.nativeassets.webassembly\\8.3.1.1\\harfbuzzsharp.nativeassets.webassembly.8.3.1.1.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\harfbuzzsharp.nativeassets.win32\\8.3.1.1\\harfbuzzsharp.nativeassets.win32.8.3.1.1.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\microcom.runtime\\0.11.0\\microcom.runtime.0.11.0.nupkg.sha512",
+    "C:\\Users\\preto\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\10.0.0-rc.1.25451.107\\microsoft.extensions.dependencyinjection.10.0.0-rc.1.25451.107.nupkg.sha512",
+    "C:\\Users\\preto\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.0-rc.1.25451.107\\microsoft.extensions.dependencyinjection.abstractions.10.0.0-rc.1.25451.107.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\reactiveui\\20.1.1\\reactiveui.20.1.1.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\reactiveui.sourcegenerators\\2.4.1\\reactiveui.sourcegenerators.2.4.1.nupkg.sha512",
     "C:\\Users\\preto\\.nuget\\packages\\reactiveui.sourcegenerators.analyzers.codefixes\\2.4.1\\reactiveui.sourcegenerators.analyzers.codefixes.2.4.1.nupkg.sha512",

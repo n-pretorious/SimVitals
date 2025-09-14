@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="SimVitals/App.axaml" value="SimVitals/SimVitals.csproj" />
         <entry key="SimVitals/Views/MainWindow.axaml" value="SimVitals/SimVitals.csproj" />
       </map>
     </option>

@@ -3,12 +3,12 @@
         xmlns:vm="using:SimVitals.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1250" d:DesignHeight="900"
+        mc:Ignorable="d" d:DesignWidth="1250" d:DesignHeight="750"
         x:Class="SimVitals.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="SimVitals Pro - Medical Training Simulation"
-        Width="1400" Height="900"
+        Width="1400" Height="780"
         Background="#ECF0F1"
         WindowStartupLocation="CenterScreen">
 

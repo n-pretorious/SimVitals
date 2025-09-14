@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
+using Core.Interfaces;
 using ReactiveUI;
 using Core.Models;
 
@@ -11,6 +13,9 @@ namespace SimVitals.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+    private readonly IPatientDataService _patientService;
+    private readonly IComplianceService _complianceService;
+    
     private readonly CompositeDisposable _vitalsTimer = new();
     private readonly Random _random = new();
 
@@ -43,19 +48,18 @@ public partial class MainWindowViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> TriggerCardiacEventCommand { get; }
     public ReactiveCommand<Unit, Unit> TriggerAnaphylaxisCommand { get; }
     public ReactiveCommand<Unit, Unit> TriggerStrokeCommand { get; }
-    public ReactiveCommand<Unit, Unit> NormalizeVitalsCommand { get; }
+    public ReactiveCommand<Unit, Task> NormalizeVitalsCommand { get; }
     public ReactiveCommand<Unit, Unit> EmergencyStopCommand { get; }
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(
+        IPatientDataService patientService,
+        IComplianceService complianceService,
+        IAuditLogger auditLogger)
     {
-        // Initialize session data
-        CurrentSession = new PatientSession
-        {
-            PatientToken = "PT_A3B7K9M2",
-            PatientName = "Training Simulation",
-            CreatedBy = "Dr. John Doe",
-            CreatedAt = DateTime.UtcNow
-        };
+        _patientService = patientService;
+        _complianceService = complianceService;
+        
+        InitializePatientSession();
 
         // Initialize reactive commands
         TriggerCardiacEventCommand = ReactiveCommand.Create(TriggerCardiacEvent);
@@ -73,10 +77,31 @@ public partial class MainWindowViewModel : ViewModelBase
             .Subscribe(_ => UpdateVitals())
             .DisposeWith(_vitalsTimer);
     }
-
-    private void UpdateVitals()
+    
+    private async void InitializePatientSession()
     {
-        // Create a new VitalSigns object to ensure property change notification
+        // Create a real patient with encryption
+        var patient = new Patient
+        {
+            FirstName = "Training",
+            LastName = "Patient",
+            DateOfBirth = DateTime.Now.AddYears(-45),
+            MedicalRecordNumber = "MRN-DEMO-001"
+        };
+        
+        var token = await _patientService.CreatePatientSessionAsync(patient, "demo-instructor");
+        
+        CurrentSession = new PatientSession
+        {
+            PatientToken = token.Value,
+            PatientName = "Training Simulation",
+            CreatedBy = "Dr. John Doe",
+            CreatedAt = DateTime.UtcNow
+        };
+    }
+
+    private async void UpdateVitals()
+    {
         var newVitals = CurrentVitals.Clone();
         
         // Add small random variations for realism
@@ -98,12 +123,17 @@ public partial class MainWindowViewModel : ViewModelBase
         newVitals.Timestamp = DateTime.UtcNow;
 
         // Update the property (ReactiveUI Source Generator handles PropertyChanged)
-        CurrentVitals = newVitals;
+        var isValid = await _complianceService.ValidateVitalsSafetyAsync(newVitals, CurrentSession.PatientToken);
         
-        // Occasionally add audit entry
-        if (_random.Next(1, 100) < 20) // 20% chance
+        if (!isValid)
         {
-            AddAuditEntry("VITALS_UPDATED", $"HR:{CurrentVitals.HeartRate} BP:{CurrentVitals.BloodPressure} O2:{CurrentVitals.OxygenSaturation}%");
+            CurrentVitals = newVitals;
+        }
+        else
+        {
+            // Safety violation - stop simulation
+            AddAuditEntry("SAFETY_VIOLATION", "Vitals exceeded safe parameters - simulation halted");
+            await NormalizeVitals();
         }
     }
 
@@ -155,7 +185,7 @@ public partial class MainWindowViewModel : ViewModelBase
         AddAuditEntry("SCENARIO_TRIGGERED", "Instructor triggered: ACUTE_STROKE");
     }
 
-    private void NormalizeVitals()
+    private Task NormalizeVitals()
     {
         CurrentScenario = "Normal Vitals";
         
@@ -169,6 +199,8 @@ public partial class MainWindowViewModel : ViewModelBase
         };
         
         AddAuditEntry("SCENARIO_NORMALIZED", "Vitals returning to normal ranges");
+        
+        return Task.CompletedTask;
     }
 
     private void EmergencyStop()

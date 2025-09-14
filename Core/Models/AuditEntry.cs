@@ -1,4 +1,6 @@
-﻿namespace Core.Models;
+﻿using Core.Enums;
+
+namespace Core.Models;
 
 public class AuditEntry
 {
@@ -9,4 +11,7 @@ public class AuditEntry
   public string PatientToken { get; set; } = string.Empty;
     
   public string TimeString => Timestamp.ToString("HH:mm:ss");
+  public AuditSeverity Severity { get; set; }
+  public ComplianceFlags ComplianceFlags { get; set; }
+  public string IntegrityHash { get; set; }
 }

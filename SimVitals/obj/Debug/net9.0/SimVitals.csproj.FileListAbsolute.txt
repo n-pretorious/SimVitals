@@ -81,3 +81,5 @@ C:\Users\preto\RiderProjects\SimVitals\SimVitals\obj\Debug\net9.0\refint\SimVita
 C:\Users\preto\RiderProjects\SimVitals\SimVitals\obj\Debug\net9.0\SimVitals.pdb
 C:\Users\preto\RiderProjects\SimVitals\SimVitals\obj\Debug\net9.0\SimVitals.genruntimeconfig.cache
 C:\Users\preto\RiderProjects\SimVitals\SimVitals\obj\Debug\net9.0\ref\SimVitals.dll
+C:\Users\preto\RiderProjects\SimVitals\SimVitals\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\preto\RiderProjects\SimVitals\SimVitals\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
