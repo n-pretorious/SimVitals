@@ -1,5 +1,7 @@
-﻿using System.Security.Cryptography;
+﻿using System;
+using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 using Core.Interfaces;
 
 namespace Infrastructure.Security;

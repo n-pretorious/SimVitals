@@ -1,4 +1,7 @@
-﻿namespace Core.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace Core.Models;
 
 public class ComplianceReport
 {

@@ -1,4 +1,6 @@
-﻿namespace Core.Models;
+﻿using System;
+
+namespace Core.Models;
 
 public class SafetyAlert
 {

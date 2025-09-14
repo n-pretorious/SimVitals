@@ -1,4 +1,6 @@
-﻿namespace Core.Interfaces;
+﻿using System.Threading.Tasks;
+
+namespace Core.Interfaces;
 
 public interface IEncryptionService
 {

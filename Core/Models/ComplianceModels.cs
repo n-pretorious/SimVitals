@@ -1,4 +1,5 @@
-﻿using Core.Enums;
+﻿using System;
+using Core.Enums;
 
 namespace Core.Models;
 
