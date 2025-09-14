@@ -16,7 +16,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
- <Grid ColumnDefinitions="320,*,300">
+ <Grid ColumnDefinitions="320,*,312">
         
         <!-- Left Panel - Manikin Control -->
         <Border Grid.Column="0" Background="#2C3E50" BorderBrush="#3498DB" BorderThickness="0,0,3,0">
@@ -378,80 +378,167 @@
         <Border Grid.Column="2" Background="#34495E" BorderBrush="#27AE60" BorderThickness="3,0,0,0">
             <ScrollViewer>
                 <StackPanel Margin="20">
-                    <TextBlock Text="🛡️ Compliance Monitor" 
-                               FontSize="18" 
-                               FontWeight="Bold" 
-                               Foreground="White" 
-                               Margin="0,0,0,20"/>
-                    
-                    <!-- System Status -->
-                    <Border Background="#2C3E50" 
-                            CornerRadius="10" 
-                            Padding="15" 
-                            Margin="0,0,0,20"
-                            BorderBrush="#27AE60" 
+                    <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,20">
+                        <TextBlock Grid.Column="0"
+                                   Text="🛡️ Live Compliance Dashboard"
+                                   FontSize="16"
+                                   FontWeight="Bold"
+                                   Foreground="White" />
+                        <Button Grid.Column="1"
+                                Content="↻"
+                                Background="#3498DB"
+                                Foreground="White"
+                                Width="25" Height="25"
+                                FontSize="14"
+                                CornerRadius="12"
+                                Command="{Binding CompliancePanel.RefreshDataCommand}" />
+                    </Grid>
+
+                    <!-- Live Compliance Score -->
+                    <Border Background="#2C3E50"
+                            CornerRadius="10"
+                            Padding="15"
+                            Margin="0,0,0,15"
+                            BorderBrush="#27AE60"
                             BorderThickness="1">
                         <StackPanel>
-                            <TextBlock Text="System Status" 
-                                       FontWeight="Bold" 
-                                       Foreground="#27AE60" 
-                                       Margin="0,0,0,15"/>
-                            
-                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
-                                <TextBlock Grid.Column="0" Text="Compliance Score" Foreground="White"/>
-                                <TextBlock Grid.Column="1" Text="98.7%" Foreground="#27AE60" FontWeight="Bold"/>
+                            <TextBlock Text="Compliance Score"
+                                       FontWeight="Bold"
+                                       Foreground="#27AE60"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,5" />
+
+                            <TextBlock
+                                Text="{Binding CompliancePanel.DashboardData.ComplianceScore, StringFormat='{}{0:F1}%'}"
+                                FontSize="28"
+                                FontWeight="Bold"
+                                Foreground="#27AE60"
+                                HorizontalAlignment="Center" />
+
+                            <TextBlock
+                                Text="{Binding CompliancePanel.DashboardData.LastUpdated, StringFormat='Updated: {}{0:HH:mm:ss}'}"
+                                FontSize="9"
+                                Foreground="#95A5A6"
+                                HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- System Health Metrics -->
+                    <Border Background="#2C3E50"
+                            CornerRadius="10"
+                            Padding="15"
+                            Margin="0,0,0,15"
+                            BorderBrush="#3498DB"
+                            BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="System Health"
+                                       FontWeight="Bold"
+                                       Foreground="#3498DB"
+                                       Margin="0,0,0,10" />
+
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,5">
+                                <TextBlock Grid.Column="0" Text="Active Sessions" Foreground="White" FontSize="12" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding CompliancePanel.DashboardData.ActiveSessions}"
+                                           Foreground="#27AE60" FontWeight="Bold" FontSize="12" />
                             </Grid>
-                            
-                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
-                                <TextBlock Grid.Column="0" Text="HIPAA Status" Foreground="White"/>
-                                <TextBlock Grid.Column="1" Text="✓ Compliant" Foreground="#27AE60"/>
+
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,5">
+                                <TextBlock Grid.Column="0" Text="Uptime" Foreground="White" FontSize="12" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding CompliancePanel.DashboardData.SystemHealth.Uptime, StringFormat='{}{0:hh\\:mm\\:ss}'}"
+                                           Foreground="#27AE60" FontWeight="Bold" FontSize="12" />
                             </Grid>
-                            
-                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
-                                <TextBlock Grid.Column="0" Text="ISO 13485" Foreground="White"/>
-                                <TextBlock Grid.Column="1" Text="✓ Validated" Foreground="#27AE60"/>
+
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,5">
+                                <TextBlock Grid.Column="0" Text="Memory Usage" Foreground="White" FontSize="12" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding CompliancePanel.DashboardData.SystemHealth.MemoryUsageMb, StringFormat='{}{0} MB'}"
+                                           Foreground="#F39C12" FontWeight="Bold" FontSize="12" />
                             </Grid>
-                            
-                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,8">
-                                <TextBlock Grid.Column="0" Text="Data Encryption" Foreground="White"/>
-                                <TextBlock Grid.Column="1" Text="AES-256" Foreground="#27AE60"/>
-                            </Grid>
-                            
+
                             <Grid ColumnDefinitions="*,Auto">
-                                <TextBlock Grid.Column="0" Text="Audit Logging" Foreground="White"/>
-                                <TextBlock Grid.Column="1" Text="✓ Active" Foreground="#27AE60"/>
+                                <TextBlock Grid.Column="0" Text="Audit Entries" Foreground="White" FontSize="12" />
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding CompliancePanel.DashboardData.TotalAuditEntries}"
+                                           Foreground="#9B59B6" FontWeight="Bold" FontSize="12" />
                             </Grid>
                         </StackPanel>
                     </Border>
-                    
-                    <!-- Audit Log -->
-                    <TextBlock Text="📋 Real-time Audit Log" 
-                               FontSize="16" 
-                               FontWeight="Bold" 
-                               Foreground="White" 
-                               Margin="0,0,0,15"/>
-                    
-                    <ScrollViewer Height="400">
+
+                    <!-- Compliance Standards -->
+                    <Border Background="#2C3E50"
+                            CornerRadius="10"
+                            Padding="15"
+                            Margin="0,0,0,15"
+                            BorderBrush="#E67E22"
+                            BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Regulatory Standards"
+                                       FontWeight="Bold"
+                                       Foreground="#E67E22"
+                                       Margin="0,0,0,10" />
+
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,3">
+                                <TextBlock Grid.Column="0" Text="HIPAA Status" Foreground="White" FontSize="11" />
+                                <TextBlock Grid.Column="1" Text="✓ Compliant" Foreground="#27AE60" FontSize="11" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,3">
+                                <TextBlock Grid.Column="0" Text="ISO 13485" Foreground="White" FontSize="11" />
+                                <TextBlock Grid.Column="1" Text="✓ Validated" Foreground="#27AE60" FontSize="11" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,3">
+                                <TextBlock Grid.Column="0" Text="Data Encryption" Foreground="White" FontSize="11" />
+                                <TextBlock Grid.Column="1" Text="AES-256" Foreground="#27AE60" FontSize="11" />
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Grid.Column="0" Text="Session Timeout" Foreground="White" FontSize="11" />
+                                <TextBlock Grid.Column="1" Text="8h" Foreground="#27AE60" FontSize="11" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Quick Actions -->
+                    <StackPanel Margin="0,0,0,15">
+                        <Button Content="📊 Export Compliance Report"
+                                Background="#8E44AD"
+                                Foreground="White"
+                                Padding="10"
+                                FontSize="11"
+                                FontWeight="Bold"
+                                CornerRadius="5"
+                                Command="{Binding CompliancePanel.ExportComplianceReportCommand}" />
+                    </StackPanel>
+
+                    <!-- Simplified Audit Log -->
+                    <TextBlock Text="📋 Recent Audit Log"
+                               FontSize="14"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               Margin="0,0,0,10" />
+
+                    <ScrollViewer Height="200">
                         <ItemsControl ItemsSource="{Binding AuditEntries}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Background="#2C3E50" 
-                                            CornerRadius="8" 
-                                            Margin="0,5" 
-                                            Padding="12"
-                                            BorderBrush="#3498DB" 
-                                            BorderThickness="0,0,0,2">
+                                    <Border Background="#2C3E50"
+                                            CornerRadius="5"
+                                            Margin="0,3"
+                                            Padding="8"
+                                            BorderBrush="#3498DB"
+                                            BorderThickness="0,0,0,1">
                                         <StackPanel>
-                                            <TextBlock Text="{Binding TimeString}" 
-                                                       FontSize="10" 
-                                                       Foreground="#BDC3C7"/>
-                                            <TextBlock Text="{Binding Action}" 
-                                                       FontWeight="Bold" 
-                                                       Foreground="White" 
-                                                       TextWrapping="Wrap"/>
-                                            <TextBlock Text="{Binding UserId}" 
-                                                       FontSize="12" 
-                                                       Foreground="#95A5A6"/>
+                                            <TextBlock Text="{Binding TimeString}"
+                                                       FontSize="9"
+                                                       Foreground="#BDC3C7" />
+                                            <TextBlock Text="{Binding Action}"
+                                                       FontWeight="Bold"
+                                                       FontSize="10"
+                                                       Foreground="White"
+                                                       TextWrapping="Wrap" />
                                         </StackPanel>
                                     </Border>
                                 </DataTemplate>

@@ -26,6 +26,8 @@ public partial class App : Application
     services.AddSingleton<IAuditLogger, MedicalAuditLogger>();
     services.AddSingleton<IPatientDataService, PatientDataService>();
     services.AddSingleton<IComplianceService, ComplianceService>();
+    services.AddSingleton<IComplianceDashboardService, ComplianceDashboardService>();
+    services.AddSingleton<IScenarioService, ScenarioService>();
     
     services.AddTransient<MainWindowViewModel>();
     

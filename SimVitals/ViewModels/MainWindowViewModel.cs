@@ -43,6 +43,8 @@ public class MainWindowViewModel : ViewModelBase
     }
 
     public ObservableCollection<AuditEntry> AuditEntries { get; }
+    
+    public CompliancePanelViewModel CompliancePanel { get; }
 
     // ReactiveUI Commands
     public ReactiveCommand<Unit, Unit> TriggerCardiacEventCommand { get; }
@@ -55,10 +57,13 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel(
         IPatientDataService patientService,
-        IComplianceService complianceService)
+        IComplianceService complianceService,
+        IComplianceDashboardService dashboardService)
     {
         _patientService = patientService;
         _complianceService = complianceService;
+        
+        CompliancePanel = new CompliancePanelViewModel(dashboardService);
         
         AuditEntries = new ObservableCollection<AuditEntry>();
         
