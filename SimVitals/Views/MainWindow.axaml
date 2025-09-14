@@ -156,6 +156,15 @@
                                 CornerRadius="5"
                                 Command="{Binding TriggerStrokeCommand}"/>
                         
+                        <Button Content="🧪 Test Safety System" 
+                                Background="#9B59B6" 
+                                Foreground="White" 
+                                Padding="15" 
+                                Margin="0,0,0,10" 
+                                FontWeight="Bold"
+                                CornerRadius="5"
+                                Command="{Binding TestSafetySystemCommand}"/>
+                        
                         <Button Content="✅ Return to Normal" 
                                 Background="#F39C12" 
                                 Foreground="White" 

@@ -11,12 +11,12 @@ using Core.Models;
 
 namespace SimVitals.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public class MainWindowViewModel : ViewModelBase
 {
     private readonly IPatientDataService _patientService;
     private readonly IComplianceService _complianceService;
     
-    private readonly CompositeDisposable _vitalsTimer = new();
+    private readonly CompositeDisposable _dispose = new();
     private readonly Random _random = new();
 
     // ReactiveUI Source Generator properties
@@ -27,13 +27,13 @@ public partial class MainWindowViewModel : ViewModelBase
     public VitalSigns CurrentVitals
     {
         get => _currentVitals;
-        set => this.RaiseAndSetIfChanged(ref _currentVitals, value);
+        private set => this.RaiseAndSetIfChanged(ref _currentVitals, value);
     }
 
     public PatientSession CurrentSession
     {
         get => _currentSession;
-        set => this.RaiseAndSetIfChanged(ref _currentSession, value);
+        private set => this.RaiseAndSetIfChanged(ref _currentSession, value);
     }
 
     public string CurrentScenario
@@ -42,7 +42,7 @@ public partial class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _currentScenario, value);
     }
 
-    public ObservableCollection<AuditEntry> AuditEntries { get; } = [];
+    public ObservableCollection<AuditEntry> AuditEntries { get; }
 
     // ReactiveUI Commands
     public ReactiveCommand<Unit, Unit> TriggerCardiacEventCommand { get; }
@@ -50,37 +50,45 @@ public partial class MainWindowViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> TriggerStrokeCommand { get; }
     public ReactiveCommand<Unit, Task> NormalizeVitalsCommand { get; }
     public ReactiveCommand<Unit, Unit> EmergencyStopCommand { get; }
+    public ReactiveCommand<Unit, Unit> TestSafetySystemCommand { get; }
+
 
     public MainWindowViewModel(
         IPatientDataService patientService,
-        IComplianceService complianceService,
-        IAuditLogger auditLogger)
+        IComplianceService complianceService)
     {
         _patientService = patientService;
         _complianceService = complianceService;
         
-        InitializePatientSession();
-
-        // Initialize reactive commands
+        AuditEntries = new ObservableCollection<AuditEntry>();
+        
+        // Initialize commands
         TriggerCardiacEventCommand = ReactiveCommand.Create(TriggerCardiacEvent);
         TriggerAnaphylaxisCommand = ReactiveCommand.Create(TriggerAnaphylaxis);
         TriggerStrokeCommand = ReactiveCommand.Create(TriggerStroke);
         NormalizeVitalsCommand = ReactiveCommand.Create(NormalizeVitals);
         EmergencyStopCommand = ReactiveCommand.Create(EmergencyStop);
-
-        // Add initial audit entries
+        TestSafetySystemCommand = ReactiveCommand.Create(TestSafetySystem);
+        
+        _ = InitializePatientSessionAsync();
+        
         AddInitialAuditEntries();
 
         // Start real-time vitals simulation using Observable
         Observable.Timer(TimeSpan.Zero, TimeSpan.FromSeconds(2))
+            .SelectMany(async _ =>
+            {
+                await UpdateVitals();
+                return Unit.Default;
+            })
             .ObserveOn(RxApp.MainThreadScheduler)
-            .Subscribe(_ => UpdateVitals())
-            .DisposeWith(_vitalsTimer);
+            .Subscribe()
+            .DisposeWith(_dispose);
     }
     
-    private async void InitializePatientSession()
+    
+    private async Task InitializePatientSessionAsync()
     {
-        // Create a real patient with encryption
         var patient = new Patient
         {
             FirstName = "Training",
@@ -89,18 +97,27 @@ public partial class MainWindowViewModel : ViewModelBase
             MedicalRecordNumber = "MRN-DEMO-001"
         };
         
-        var token = await _patientService.CreatePatientSessionAsync(patient, "demo-instructor");
-        
-        CurrentSession = new PatientSession
+        try
         {
-            PatientToken = token.Value,
-            PatientName = "Training Simulation",
-            CreatedBy = "Dr. John Doe",
-            CreatedAt = DateTime.UtcNow
-        };
+            var token = await _patientService.CreatePatientSessionAsync(patient, "demo-instructor");
+            
+            CurrentSession = new PatientSession
+            {
+                PatientToken = token.Value,
+                PatientName = "Training Simulation",
+                CreatedBy = "Dr. Sarah Johnson",
+                CreatedAt = DateTime.UtcNow
+            };
+            
+            Console.WriteLine($"Created encrypted patient session: {token.Value}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to create patient session: {ex.Message}");
+        }
     }
 
-    private async void UpdateVitals()
+    private async Task UpdateVitals()
     {
         var newVitals = CurrentVitals.Clone();
         
@@ -143,7 +160,7 @@ public partial class MainWindowViewModel : ViewModelBase
         
         CurrentVitals = new VitalSigns
         {
-            HeartRate = 0,
+            HeartRate = 500,
             BloodPressure = new BloodPressure { Systolic = 0, Diastolic = 0 },
             OxygenSaturation = 75,
             RespiratoryRate = 0,
@@ -208,6 +225,30 @@ public partial class MainWindowViewModel : ViewModelBase
         AddAuditEntry("EMERGENCY_STOP", "CRITICAL: Emergency stop activated by instructor");
         NormalizeVitals(); // Reset to normal
     }
+    
+    private async void TestSafetySystem()
+    {
+        Console.WriteLine("Testing safety system with extreme values...");
+    
+        var dangerousVitals = new VitalSigns
+        {
+            HeartRate = 400, // Extreme value
+            BloodPressure = new BloodPressure { Systolic = 350, Diastolic = 200 },
+            OxygenSaturation = 150, // Impossible value
+            RespiratoryRate = 100,
+            Timestamp = DateTime.UtcNow
+        };
+    
+        var isValid = await _complianceService.ValidateVitalsSafetyAsync(
+            dangerousVitals, CurrentSession.PatientToken);
+    
+        Console.WriteLine($"Safety validation result: {isValid}");
+    
+        if (!isValid)
+        {
+            AddAuditEntry("SAFETY_TEST", "Deliberately triggered safety violation for testing");
+        }
+    }
 
     private void AddAuditEntry(string action, string details)
     {
@@ -239,6 +280,6 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public void Dispose()
     {
-        _vitalsTimer?.Dispose();
+        _dispose.Dispose();
     }
 }

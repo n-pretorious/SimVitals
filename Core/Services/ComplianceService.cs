@@ -131,6 +131,6 @@ public class ComplianceService : IComplianceService
     });
 
     // In production: send alerts to monitoring systems, email administrators, etc.
-    Console.WriteLine($"🚨 SAFETY ALERT: {alert.AlertType} - {alert.Message}");
+    Console.WriteLine($"SAFETY ALERT: {alert.AlertType} - {alert.Message}");
   }
 }
