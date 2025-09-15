@@ -3,6 +3,7 @@
         xmlns:vm="using:SimVitals.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:SimVitals.Views"
         mc:Ignorable="d" d:DesignWidth="1250" d:DesignHeight="750"
         x:Class="SimVitals.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -16,7 +17,7 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
- <Grid ColumnDefinitions="320,*,312">
+ <Grid ColumnDefinitions="320,*,320">
         
         <!-- Left Panel - Manikin Control -->
         <Border Grid.Column="0" Background="#2C3E50" BorderBrush="#3498DB" BorderThickness="0,0,3,0">
@@ -195,7 +196,7 @@
                         CornerRadius="15" 
                         Padding="25" 
                         Margin="0,0,0,25"
-                        BoxShadow="0 5 20 #19000000">
+                        BoxShadow="0 5 20 #19000000" >
                     <Grid ColumnDefinitions="*,Auto">
                         <StackPanel Grid.Column="0">
                             <TextBlock Text="Training Simulation" 
@@ -210,6 +211,12 @@
                                        FontSize="12" 
                                        Foreground="#95A5A6" 
                                        Margin="0,5,0,0"/>
+                            
+                            <TextBlock Text="{Binding AnimationStatus}" 
+                                       FontSize="12" 
+                                       Foreground="#E67E22" 
+                                       Margin="0,5,0,0"
+                                       IsVisible="{Binding IsAnimating}"/>
                         </StackPanel>
                         <Border Grid.Column="1" 
                                 Background="#27AE60" 
@@ -232,7 +239,8 @@
                             CornerRadius="15" 
                             Padding="25" 
                             Margin="0,0,12,25"
-                            BoxShadow="0 5 20 #19000000">
+                            BoxShadow="0 5 20 #19000000"
+                            Name="HeartRateCard" >
                         <StackPanel>
                             <Border Background="#E74C3C" Height="4" CornerRadius="2" Margin="0,0,0,15"/>
                             <TextBlock Text="❤️ Heart Rate" 
@@ -240,11 +248,15 @@
                                        FontWeight="Bold" 
                                        Foreground="#7F8C8D" 
                                        Margin="0,0,0,10"/>
-                            <TextBlock FontSize="42" FontWeight="Bold" Foreground="#E74C3C">
+                            <TextBlock FontSize="42" 
+                                       FontWeight="Bold" 
+                                       Foreground="#E74C3C"
+                                       Classes="vitals-value"
+                                       Name="HeartRateValue">
                                 <Run Text="{Binding CurrentVitals.HeartRate}"/>
                                 <Run Text=" BPM" FontSize="16" Foreground="#95A5A6"/>
                             </TextBlock>
-                            <TextBlock Text="Normal Range: 60-100 BPM" 
+                            <TextBlock Text="{Binding HeartRateStatus}" 
                                        FontSize="12" 
                                        Foreground="#7F8C8D"/>
                         </StackPanel>
@@ -323,53 +335,44 @@
                     </Border>
                 </Grid>
                 
-                <!-- ECG Monitor -->
-                <Border Background="White" 
-                        CornerRadius="15" 
-                        Padding="25" 
-                        BoxShadow="0 5 20 #19000000">
-                    <StackPanel>
-                        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,15">
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="📊 ECG Monitor" 
-                                           FontSize="18" 
-                                           FontWeight="Bold" 
-                                           Foreground="#2C3E50"/>
-                                <TextBlock Text="Lead II - Real-time cardiac rhythm" 
-                                           FontSize="14" 
-                                           Foreground="#7F8C8D"/>
-                            </StackPanel>
-                            <Border Grid.Column="1" 
-                                    Background="#27AE60" 
-                                    CornerRadius="20" 
-                                    Padding="12,8">
-                                <TextBlock Text="NORMAL SINUS RHYTHM" 
-                                           FontSize="12" 
-                                           FontWeight="Bold" 
-                                           Foreground="White"/>
-                            </Border>
-                        </Grid>
-                        
-                        <!-- ECG Display Area -->
-                        <Border Background="#2C3E50" 
-                                Height="150" 
-                                CornerRadius="10">
-                            <Grid>
-                                <TextBlock Text="📈 ECG Waveform Simulation" 
-                                           HorizontalAlignment="Center" 
-                                           VerticalAlignment="Center" 
-                                           Foreground="#27AE60" 
-                                           FontSize="16"/>
-                                <TextBlock Text="{Binding CurrentVitals.HeartRate, StringFormat='HR: {0} BPM'}" 
-                                           Margin="15,10" 
-                                           HorizontalAlignment="Left" 
-                                           VerticalAlignment="Top" 
-                                           Foreground="#27AE60" 
-                                           FontSize="12" 
-                                           FontWeight="Bold"/>
-                            </Grid>
-                        </Border>
-                    </StackPanel>
+                <!-- ECG Display Area -->
+                <Border Background="#0F1419" 
+                        Height="200" 
+                        CornerRadius="8" 
+                        BorderBrush="#34495E" 
+                        BorderThickness="2">
+                    <Grid>
+                        <!-- ECG Waveform Control -->
+                        <views:EcgWaveformControl HeartRate="{Binding CurrentVitals.HeartRate}"
+                                                  RhythmType="{Binding EcgRhythmType}"
+                                                  Width="550" 
+                                                  Height="200"/>
+        
+                        <!-- Overlay Information -->
+                        <StackPanel VerticalAlignment="Top" 
+                                    HorizontalAlignment="Left" 
+                                    Margin="15,10">
+                            <TextBlock Text="{Binding CurrentVitals.HeartRate, StringFormat='HR: {0} BPM'}" 
+                                       FontSize="14" 
+                                       FontWeight="Bold" 
+                                       Foreground="#00FF41"/>
+                            <TextBlock Text="{Binding EcgRhythmType}" 
+                                       FontSize="11" 
+                                       Foreground="#00FF41"/>
+                        </StackPanel>
+        
+                        <!-- Technical Info -->
+                        <StackPanel VerticalAlignment="Top" 
+                                    HorizontalAlignment="Right" 
+                                    Margin="15,10">
+                            <TextBlock Text="Lead II" 
+                                       FontSize="11" 
+                                       Foreground="#BDC3C7"/>
+                            <TextBlock Text="{Binding EcgSignalQuality}" 
+                                       FontSize="10" 
+                                       Foreground="#95A5A6"/>
+                        </StackPanel>
+                    </Grid>
                 </Border>
             </StackPanel>
         </ScrollViewer>
@@ -378,48 +381,63 @@
         <Border Grid.Column="2" Background="#34495E" BorderBrush="#27AE60" BorderThickness="3,0,0,0">
             <ScrollViewer>
                 <StackPanel Margin="20">
+                    
                     <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,20">
                         <TextBlock Grid.Column="0"
-                                   Text="🛡️ Live Compliance Dashboard"
-                                   FontSize="16"
+                                   Text="🛡️ Compliance Dashboard"
+                                   FontSize="18"
                                    FontWeight="Bold"
                                    Foreground="White" />
                         <Button Grid.Column="1"
                                 Content="↻"
                                 Background="#3498DB"
                                 Foreground="White"
-                                Width="25" Height="25"
-                                FontSize="14"
-                                CornerRadius="12"
-                                Command="{Binding CompliancePanel.RefreshDataCommand}" />
+                                Width="35" Height="35"
+                                FontSize="18"
+                                CornerRadius="17"
+                                Command="{Binding CompliancePanel.RefreshDataCommand}">
+                
+                            <Button.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="Transitions">
+                                        <Transitions>
+                                            <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.5" />
+                                        </Transitions>
+                                    </Setter>
+                                </Style>
+                                <Style Selector="Button:pressed">
+                                    <Setter Property="RenderTransform" Value="rotate(180deg)" />
+                                </Style>
+                            </Button.Styles>
+                
+                        </Button>
                     </Grid>
 
                     <!-- Live Compliance Score -->
-                    <Border Background="#2C3E50"
-                            CornerRadius="10"
-                            Padding="15"
+                    <Border Background="#2C3E50" 
+                            CornerRadius="10" 
+                            Padding="15" 
                             Margin="0,0,0,15"
-                            BorderBrush="#27AE60"
-                            BorderThickness="1">
+                            BorderBrush="#27AE60" 
+                            BorderThickness="1"
+                            Classes="dashboard-card">
                         <StackPanel>
-                            <TextBlock Text="Compliance Score"
+                            <TextBlock Text="Compliance Score" 
+                                       FontWeight="Bold" 
+                                       Foreground="#27AE60" 
+                                       Margin="0,0,0,10"/>
+        
+                            <TextBlock Text="{Binding CompliancePanel.DashboardData.ComplianceScore, StringFormat='{}{0:F1}%'}"
+                                       FontSize="32"
                                        FontWeight="Bold"
                                        Foreground="#27AE60"
                                        HorizontalAlignment="Center"
-                                       Margin="0,0,0,5" />
-
-                            <TextBlock
-                                Text="{Binding CompliancePanel.DashboardData.ComplianceScore, StringFormat='{}{0:F1}%'}"
-                                FontSize="28"
-                                FontWeight="Bold"
-                                Foreground="#27AE60"
-                                HorizontalAlignment="Center" />
-
-                            <TextBlock
-                                Text="{Binding CompliancePanel.DashboardData.LastUpdated, StringFormat='Updated: {}{0:HH:mm:ss}'}"
-                                FontSize="9"
-                                Foreground="#95A5A6"
-                                HorizontalAlignment="Center" />
+                                       Classes="vitals-value"/>
+                   
+                            <TextBlock Text="{Binding CompliancePanel.DashboardData.LastUpdated, StringFormat='Updated: {0:HH:mm:ss}'}"
+                                       FontSize="10"
+                                       Foreground="#95A5A6"
+                                       HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
 
@@ -429,42 +447,134 @@
                             Padding="15"
                             Margin="0,0,0,15"
                             BorderBrush="#3498DB"
-                            BorderThickness="1">
+                            BorderThickness="2"
+                            Classes="dashboard-card">
                         <StackPanel>
-                            <TextBlock Text="System Health"
-                                       FontWeight="Bold"
-                                       Foreground="#3498DB"
-                                       Margin="0,0,0,10" />
-
-                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,5">
-                                <TextBlock Grid.Column="0" Text="Active Sessions" Foreground="White" FontSize="12" />
+                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,10">
+                                <TextBlock Grid.Column="0"
+                                           Text="🏥 System Health"
+                                           FontWeight="Bold"
+                                           Foreground="#3498DB" />
                                 <TextBlock Grid.Column="1"
-                                           Text="{Binding CompliancePanel.DashboardData.ActiveSessions}"
-                                           Foreground="#27AE60" FontWeight="Bold" FontSize="12" />
+                                           Text="{Binding CompliancePanel.HealthStatus}"
+                                           FontSize="10"
+                                           Foreground="#27AE60" />
                             </Grid>
 
-                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,5">
-                                <TextBlock Grid.Column="0" Text="Uptime" Foreground="White" FontSize="12" />
-                                <TextBlock Grid.Column="1"
-                                           Text="{Binding CompliancePanel.DashboardData.SystemHealth.Uptime, StringFormat='{}{0:hh\\:mm\\:ss}'}"
-                                           Foreground="#27AE60" FontWeight="Bold" FontSize="12" />
-                            </Grid>
+<Grid ColumnDefinitions="Auto,*,70"
+      RowDefinitions="Auto,Auto,Auto,Auto">
 
-                            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,5">
-                                <TextBlock Grid.Column="0" Text="Memory Usage" Foreground="White" FontSize="12" />
-                                <TextBlock Grid.Column="1"
-                                           Text="{Binding CompliancePanel.DashboardData.SystemHealth.MemoryUsageMb, StringFormat='{}{0} MB'}"
-                                           Foreground="#F39C12" FontWeight="Bold" FontSize="12" />
-                            </Grid>
+    <!-- CPU -->
+    <Border Width="40" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+        <TextBlock Text="CPU:" 
+                   FontSize="12" 
+                   Foreground="#BDC3C7"
+                   VerticalAlignment="Center"/>
+    </Border>
 
-                            <Grid ColumnDefinitions="*,Auto">
-                                <TextBlock Grid.Column="0" Text="Audit Entries" Foreground="White" FontSize="12" />
-                                <TextBlock Grid.Column="1"
-                                           Text="{Binding CompliancePanel.DashboardData.TotalAuditEntries}"
-                                           Foreground="#9B59B6" FontWeight="Bold" FontSize="12" />
-                            </Grid>
+    <ProgressBar Grid.Row="0" Grid.Column="1"
+                 Value="{Binding CompliancePanel.SystemHealth.CpuUsagePercent}"
+                 Maximum="100"
+                 Height="8"
+                 CornerRadius="4"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Left" />
+
+    <Border Width="80" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right">
+        <TextBlock Text="{Binding CompliancePanel.SystemHealth.CpuUsagePercent, StringFormat='{}{0:F1}%'}"
+                   FontSize="11"
+                   Foreground="#E67E22"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"/>
+    </Border>
+
+    <!-- RAM -->
+    <Border Width="40" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+        <TextBlock Text="RAM:" 
+                   FontSize="12" 
+                   Foreground="#BDC3C7"
+                   VerticalAlignment="Center"/>
+    </Border>
+
+    <ProgressBar Grid.Row="1" Grid.Column="1"
+                 Value="{Binding SystemMemoryMb}"
+                 Maximum="500"
+                 Height="8"
+                 CornerRadius="4"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Left" />
+
+    <Border Width="30" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">
+        <TextBlock Text="{Binding SystemMemoryMb, StringFormat='{}{0}MB'}"
+                   FontSize="11"
+                   Foreground="#E67E22"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"/>
+    </Border>
+
+    <!-- Response -->
+    <Border Width="40" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left">
+        <TextBlock Text="Resp:" 
+                   FontSize="12" 
+                   Foreground="#BDC3C7"
+                   VerticalAlignment="Center"/>
+    </Border>
+
+    <ProgressBar Grid.Row="2" Grid.Column="1"
+                 Value="{Binding AverageResponseTimeMs}"
+                 Maximum="100"
+                 Height="8"
+                 CornerRadius="4"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Left" />
+
+    <Border Width="80" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right">
+        <TextBlock Text="{Binding AverageResponseTimeMs, StringFormat='{}{0:F1}ms'}"
+                   FontSize="11"
+                   Foreground="#E67E22"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"/>
+    </Border>
+
+    <!-- Errors -->
+    <Border Width="40" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left">
+        <TextBlock Text="Errors:" 
+                   FontSize="12" 
+                   Foreground="#BDC3C7"
+                   VerticalAlignment="Center"/>
+    </Border>
+
+    <ProgressBar Grid.Row="3" Grid.Column="1"
+                 Value="{Binding CompliancePanel.SystemHealth.ErrorRate}"
+                 Maximum="10"
+                 Height="8"
+                 CornerRadius="4"
+                 VerticalAlignment="Center"
+                 HorizontalAlignment="Left" />
+
+    <Border Width="80" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right">
+        <TextBlock Text="{Binding CompliancePanel.SystemHealth.ErrorRate, StringFormat='{}{0}%'}"
+                   FontSize="11"
+                   Foreground="#E67E22"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Right"/>
+    </Border>
+</Grid>
+
+
+
+
                         </StackPanel>
                     </Border>
+
+                    <!-- Add health check button -->
+                    <Button Content="🔍 Full Health Check"
+                            Background="#8E44AD"
+                            Foreground="White"
+                            Padding="15,10"
+                            FontWeight="Bold"
+                            Margin="0,0,0,10"
+                            Command="{Binding CompliancePanel.RunFullHealthCheckCommand}" />
 
                     <!-- Compliance Standards -->
                     <Border Background="#2C3E50"

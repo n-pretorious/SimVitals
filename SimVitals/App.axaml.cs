@@ -28,8 +28,11 @@ public partial class App : Application
     services.AddSingleton<IComplianceService, ComplianceService>();
     services.AddSingleton<IComplianceDashboardService, ComplianceDashboardService>();
     services.AddSingleton<IScenarioService, ScenarioService>();
+    services.AddScoped<ISystemHealthService, SystemHealthService>();
     
+    services.AddTransient<CompliancePanelViewModel>();
     services.AddTransient<MainWindowViewModel>();
+    
     
     var serviceProvider = services.BuildServiceProvider();
     

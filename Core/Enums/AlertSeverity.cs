@@ -1,6 +1,6 @@
 ﻿namespace Core.Enums;
 
-public enum AuditSeverity
+public enum AlertSeverity
 {
   Info,
   Warning,

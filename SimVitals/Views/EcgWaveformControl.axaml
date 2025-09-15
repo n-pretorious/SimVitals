@@ -1,0 +1,29 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SimVitals.Views.EcgWaveformControl"
+             Name="EcgControl">
+    
+    <Canvas Name="EcgCanvas" 
+            Background="#0F1419" 
+            ClipToBounds="True">
+        
+        <!-- ECG Grid Background -->
+        <Canvas Name="GridCanvas" Background="Transparent"/>
+        
+        <!-- ECG Waveform Line -->
+        <Polyline Name="EcgWaveform" 
+                  Stroke="#00FF41" 
+                  StrokeThickness="2" 
+                  Fill="Transparent"/>
+        
+        <!-- Sweeping line that follows the waveform -->
+        <Rectangle Name="SweepLine" 
+                   Fill="#00FF41" 
+                   Width="2" 
+                   Height="200" 
+                   Opacity="0.6"/>
+    </Canvas>
+</UserControl>
