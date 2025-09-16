@@ -9,7 +9,7 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="SimVitals Pro - Medical Training Simulation"
-        Width="1400" Height="780"
+        Width="1500" Height="780"
         Background="#ECF0F1"
         WindowStartupLocation="CenterScreen">
 
@@ -225,7 +225,8 @@
                             <TextBlock Text="ISO 13485 ✓" 
                                        FontSize="12" 
                                        FontWeight="Bold" 
-                                       Foreground="White"/>
+                                       Foreground="White" 
+                                       VerticalAlignment="Center" />
                         </Border>
                     </Grid>
                 </Border>
@@ -461,11 +462,11 @@
                                            Foreground="#27AE60" />
                             </Grid>
 
-<Grid ColumnDefinitions="Auto,*,70"
+<Grid ColumnDefinitions="Auto,*,Auto"
       RowDefinitions="Auto,Auto,Auto,Auto">
 
     <!-- CPU -->
-    <Border Width="40" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+    <Border Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Padding="0,0,5,0">
         <TextBlock Text="CPU:" 
                    FontSize="12" 
                    Foreground="#BDC3C7"
@@ -476,11 +477,11 @@
                  Value="{Binding CompliancePanel.SystemHealth.CpuUsagePercent}"
                  Maximum="100"
                  Height="8"
+                 MinWidth="100"
                  CornerRadius="4"
-                 VerticalAlignment="Center"
-                 HorizontalAlignment="Left" />
+                 VerticalAlignment="Center" />
 
-    <Border Width="80" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right">
+    <Border Grid.Row="0" Grid.Column="2" HorizontalAlignment="Right" Padding="5,0,0,0">
         <TextBlock Text="{Binding CompliancePanel.SystemHealth.CpuUsagePercent, StringFormat='{}{0:F1}%'}"
                    FontSize="11"
                    Foreground="#E67E22"
@@ -489,7 +490,7 @@
     </Border>
 
     <!-- RAM -->
-    <Border Width="40" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+    <Border Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Padding="0,0,5,0">
         <TextBlock Text="RAM:" 
                    FontSize="12" 
                    Foreground="#BDC3C7"
@@ -500,11 +501,11 @@
                  Value="{Binding SystemMemoryMb}"
                  Maximum="500"
                  Height="8"
+                 MinWidth="100"
                  CornerRadius="4"
-                 VerticalAlignment="Center"
-                 HorizontalAlignment="Left" />
+                 VerticalAlignment="Center" />
 
-    <Border Width="30" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">
+    <Border Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" Padding="5,0,0,0">
         <TextBlock Text="{Binding SystemMemoryMb, StringFormat='{}{0}MB'}"
                    FontSize="11"
                    Foreground="#E67E22"
@@ -513,7 +514,7 @@
     </Border>
 
     <!-- Response -->
-    <Border Width="40" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left">
+    <Border Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Padding="0,0,5,0">
         <TextBlock Text="Resp:" 
                    FontSize="12" 
                    Foreground="#BDC3C7"
@@ -524,11 +525,11 @@
                  Value="{Binding AverageResponseTimeMs}"
                  Maximum="100"
                  Height="8"
+                 MinWidth="100"
                  CornerRadius="4"
-                 VerticalAlignment="Center"
-                 HorizontalAlignment="Left" />
+                 VerticalAlignment="Center" />
 
-    <Border Width="80" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right">
+    <Border Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" Padding="5,0,0,0">
         <TextBlock Text="{Binding AverageResponseTimeMs, StringFormat='{}{0:F1}ms'}"
                    FontSize="11"
                    Foreground="#E67E22"
@@ -537,7 +538,7 @@
     </Border>
 
     <!-- Errors -->
-    <Border Width="40" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left">
+    <Border Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Padding="0,0,5,0">
         <TextBlock Text="Errors:" 
                    FontSize="12" 
                    Foreground="#BDC3C7"
@@ -548,11 +549,11 @@
                  Value="{Binding CompliancePanel.SystemHealth.ErrorRate}"
                  Maximum="10"
                  Height="8"
+                 MinWidth="100"
                  CornerRadius="4"
-                 VerticalAlignment="Center"
-                 HorizontalAlignment="Left" />
+                 VerticalAlignment="Center" />
 
-    <Border Width="80" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right">
+    <Border Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" Padding="5,0,0,0">
         <TextBlock Text="{Binding CompliancePanel.SystemHealth.ErrorRate, StringFormat='{}{0}%'}"
                    FontSize="11"
                    Foreground="#E67E22"
@@ -560,6 +561,7 @@
                    HorizontalAlignment="Right"/>
     </Border>
 </Grid>
+
 
 
 

@@ -9,20 +9,15 @@ using Core.Models;
 
 namespace Infrastructure.Compliance;
 
-public class MedicalAuditLogger : IAuditLogger
+public class MedicalAuditLogger(
+  IEncryptionService encryptionService) : IAuditLogger
 {
-  private readonly IEncryptionService _encryptionService;
   private readonly List<AuditEntry> _auditEntries = new();
-  
-  public MedicalAuditLogger(IEncryptionService encryptionService)
-  {
-    _encryptionService = encryptionService;
-  }
-  
+
   public async Task LogAsync(AuditEntry entry)
   {
     var entryJson = JsonSerializer.Serialize(entry, new JsonSerializerOptions { WriteIndented = false });
-    entry.IntegrityHash = _encryptionService.ComputeHash(entryJson);
+    entry.IntegrityHash = encryptionService.ComputeHash(entryJson);
 
     _auditEntries.Add(entry);
 
